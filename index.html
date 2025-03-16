@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ROI Calculation for EV Charging Station (Including 7% Interest)</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+    h1, h2, h3 { color: #2C3E50; }
+    ul { margin: 0 0 20px 20px; }
+    table { border-collapse: collapse; margin-top: 10px; }
+    table, th, td { border: 1px solid #ccc; padding: 8px; }
+  </style>
+</head>
+<body>
+  <h1>ROI Calculation for EV Charging Station (Including 7% Interest)</h1>
+  
+  <h2>Assumptions</h2>
+  <ul>
+    <li><strong>Vehicles:</strong>  
+      <ul>
+        <li>Car: Tata Nexon EV with ~30 kWh battery</li>
+        <li>Two-wheeler: ~2 kWh battery (assumed)</li>
+      </ul>
+    </li>
+    <li><strong>Charging Price:</strong> ₹10 per kWh</li>
+    <li><strong>Electricity Cost (Expense):</strong> ₹7 per kWh</li>
+    <li><strong>Profit Margin per kWh:</strong> ₹3 per kWh (₹10 - ₹7)</li>
+    <li><strong>Charging Pattern:</strong>
+      <ul>
+        <li><em>Weekdays (Mon-Fri):</em> 5 two-wheelers and 2 cars per day</li>
+        <li><em>Weekends (Sat-Sun):</em> 10 two-wheelers and 5 cars per day</li>
+      </ul>
+    </li>
+    <li><strong>Interest Rate on Investment:</strong> 7% per annum</li>
+  </ul>
+
+  <h2>Revenue & Margin per Full Charge</h2>
+  <table>
+    <tr>
+      <th>Vehicle Type</th>
+      <th>Battery Capacity</th>
+      <th>Revenue per Charge</th>
+      <th>Electricity Cost per Charge</th>
+      <th>Profit per Charge</th>
+    </tr>
+    <tr>
+      <td>Car (Tata Nexon EV)</td>
+      <td>30 kWh</td>
+      <td>30 kWh × ₹10 = ₹300</td>
+      <td>30 kWh × ₹7 = ₹210</td>
+      <td>₹300 – ₹210 = ₹90</td>
+    </tr>
+    <tr>
+      <td>Two-Wheeler</td>
+      <td>2 kWh</td>
+      <td>2 kWh × ₹10 = ₹20</td>
+      <td>2 kWh × ₹7 = ₹14</td>
+      <td>₹20 – ₹14 = ₹6</td>
+    </tr>
+  </table>
+
+  <h2>Daily & Weekly Profit Calculations</h2>
+  <h3>Weekdays (Monday to Friday)</h3>
+  <ul>
+    <li><strong>Cars:</strong> 2 cars/day → 2 × ₹90 = ₹180 profit/day</li>
+    <li><strong>Two-Wheelers:</strong> 5 two-wheelers/day → 5 × ₹6 = ₹30 profit/day</li>
+    <li><strong>Total Profit per Weekday:</strong> ₹180 + ₹30 = ₹210</li>
+    <li>For 5 weekdays: 5 × ₹210 = ₹1,050</li>
+  </ul>
+  
+  <h3>Weekends (Saturday and Sunday)</h3>
+  <ul>
+    <li><strong>Cars:</strong> 5 cars/day → 5 × ₹90 = ₹450 profit/day</li>
+    <li><strong>Two-Wheelers:</strong> 10 two-wheelers/day → 10 × ₹6 = ₹60 profit/day</li>
+    <li><strong>Total Profit per Weekend Day:</strong> ₹450 + ₹60 = ₹510</li>
+    <li>For 2 weekend days: 2 × ₹510 = ₹1,020</li>
+  </ul>
+  
+  <h3>Total Weekly Profit</h3>
+  <p>
+    Weekdays Profit (Mon-Fri): ₹1,050<br>
+    Weekends Profit (Sat-Sun): ₹1,020<br>
+    <strong>Total Weekly Profit = ₹1,050 + ₹1,020 = ₹2,070</strong>
+  </p>
+  
+  <h2>Monthly & Annual Profit Estimates (Before Interest)</h2>
+  <ul>
+    <li><strong>Monthly Profit:</strong> Approximately 4 weeks × ₹2,070 = ₹8,280</li>
+    <li><strong>Annual Profit:</strong> ₹8,280 × 12 ≈ ₹99,360</li>
+  </ul>
+
+  <h2>Impact of 7% Annual Interest on Investment</h2>
+  <p>
+    The annual interest cost is calculated on the initial investment. We’ll look at two investment scenarios:
+  </p>
+  <table>
+    <tr>
+      <th>Investment Amount</th>
+      <th>Annual Interest Cost (7%)</th>
+      <th>Effective Annual Profit<br>(Annual Profit – Interest Cost)</th>
+    </tr>
+    <tr>
+      <td>₹10,00,000</td>
+      <td>₹10,00,000 × 7% = ₹70,000</td>
+      <td>₹99,360 – ₹70,000 = ₹29,360</td>
+    </tr>
+    <tr>
+      <td>₹15,00,000</td>
+      <td>₹15,00,000 × 7% = ₹1,05,000</td>
+      <td>₹99,360 – ₹1,05,000 = –₹5,640</td>
+    </tr>
+  </table>
+  
+  <h2>Revised ROI Analysis</h2>
+  <p>
+    <strong>Scenario 1: Investment of ₹10,00,000</strong><br>
+    With an effective annual profit of ₹29,360, the payback period would be approximately:
+  </p>
+  <p>
+    Payback Period ≈ ₹10,00,000 / ₹29,360 ≈ 34 years
+  </p>
+  
+  <p>
+    <strong>Scenario 2: Investment of ₹15,00,000</strong><br>
+    With an effective annual profit of –₹5,640 (i.e., a loss when considering interest costs), the operation would not be profitable under these assumptions.
+  </p>
+
+  <h2>Notes & Considerations</h2>
+  <ul>
+    <li>The above calculations assume each charging session fully charges the vehicle’s battery.</li>
+    <li>The profit margin is based on a per kWh basis. Additional costs (maintenance, rent, network fees, manpower, etc.) are not included.</li>
+    <li>This analysis does not consider any potential revenue from supplementary services or government subsidies.</li>
+    <li>Utilization rates, local market conditions, and pricing adjustments can significantly impact the ROI.</li>
+    <li>With the addition of interest costs, achieving a profitable return may require higher utilization rates or alternative revenue streams.</li>
+  </ul>
+
+  <h2>Conclusion</h2>
+  <p>
+    Under the provided assumptions and incorporating a 7% annual interest cost on your investment, the effective annual profit for an investment of ₹10,00,000 drops to ₹29,360, resulting in a payback period of roughly 34 years. An investment of ₹15,00,000 would result in a net loss on an annual basis. These findings highlight the need to either increase utilization, adjust pricing, reduce operational costs, or secure additional revenue sources to improve the investment’s viability.
+  </p>
+</body>
+</html>
