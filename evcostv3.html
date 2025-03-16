@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EV Charging ROI Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        h1, h2, h3 { color: #2C3E50; }
+        label, input { margin-bottom: 10px; display: block; }
+        table { border-collapse: collapse; margin-top: 10px; width: 100%; }
+        table, th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>EV Charging ROI Calculator</h1>
+    
+    <label>Charging Price (₹ per kWh): <input type="number" id="chargingPrice" value="10" oninput="calculateROI()"></label>
+    <label>Electricity Cost (₹ per kWh): <input type="number" id="electricityCost" value="7" oninput="calculateROI()"></label>
+    <label>Weekday Two-Wheelers per Day: <input type="number" id="weekdayTW" value="5" oninput="calculateROI()"></label>
+    <label>Weekday Cars per Day: <input type="number" id="weekdayCars" value="2" oninput="calculateROI()"></label>
+    <label>Weekend Two-Wheelers per Day: <input type="number" id="weekendTW" value="10" oninput="calculateROI()"></label>
+    <label>Weekend Cars per Day: <input type="number" id="weekendCars" value="5" oninput="calculateROI()"></label>
+    <label>Interest Rate (% per annum): <input type="number" id="interestRate" value="7" oninput="calculateROI()"></label>
+    
+    <h2>ROI Calculation</h2>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr><td>Daily Profit (Weekdays)</td><td id="profitWeekday">-</td></tr>
+        <tr><td>Daily Profit (Weekends)</td><td id="profitWeekend">-</td></tr>
+        <tr><td>Total Weekly Profit</td><td id="profitWeekly">-</td></tr>
+        <tr><td>Annual Profit (Before Interest)</td><td id="profitAnnual">-</td></tr>
+        <tr><td>Annual Interest Cost (₹10L & ₹15L)</td><td id="interestCost">-</td></tr>
+        <tr><td>Effective Annual Profit (₹10L & ₹15L)</td><td id="effectiveProfit">-</td></tr>
+        <tr><td>Payback Period (₹10L & ₹15L)</td><td id="paybackPeriod">-</td></tr>
+    </table>
+    
+    <script>
+        function calculateROI() {
+            let pricePerKWh = parseFloat(document.getElementById('chargingPrice').value);
+            let costPerKWh = parseFloat(document.getElementById('electricityCost').value);
+            let weekdayTW = parseInt(document.getElementById('weekdayTW').value);
+            let weekdayCars = parseInt(document.getElementById('weekdayCars').value);
+            let weekendTW = parseInt(document.getElementById('weekendTW').value);
+            let weekendCars = parseInt(document.getElementById('weekendCars').value);
+            let interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
+            
+            let carBattery = 30, twBattery = 2;
+            let marginPerKWh = pricePerKWh - costPerKWh;
+            
+            let profitCar = carBattery * marginPerKWh;
+            let profitTW = twBattery * marginPerKWh;
+            
+            let profitWeekday = (weekdayCars * profitCar) + (weekdayTW * profitTW);
+            let profitWeekend = (weekendCars * profitCar) + (weekendTW * profitTW);
+            let profitWeekly = (profitWeekday * 5) + (profitWeekend * 2);
+            let profitAnnual = profitWeekly * 52;
+            
+            let interest10L = 1000000 * interestRate;
+            let interest15L = 1500000 * interestRate;
+            let effectiveProfit10L = profitAnnual - interest10L;
+            let effectiveProfit15L = profitAnnual - interest15L;
+            
+            let payback10L = effectiveProfit10L > 0 ? (1000000 / effectiveProfit10L).toFixed(1) + ' years' : 'Not Profitable';
+            let payback15L = effectiveProfit15L > 0 ? (1500000 / effectiveProfit15L).toFixed(1) + ' years' : 'Not Profitable';
+            
+            document.getElementById('profitWeekday').innerText = `₹${profitWeekday.toFixed(2)}`;
+            document.getElementById('profitWeekend').innerText = `₹${profitWeekend.toFixed(2)}`;
+            document.getElementById('profitWeekly').innerText = `₹${profitWeekly.toFixed(2)}`;
+            document.getElementById('profitAnnual').innerText = `₹${profitAnnual.toFixed(2)}`;
+            document.getElementById('interestCost').innerText = `₹${interest10L.toFixed(2)} (₹10L) / ₹${interest15L.toFixed(2)} (₹15L)`;
+            document.getElementById('effectiveProfit').innerText = `₹${effectiveProfit10L.toFixed(2)} (₹10L) / ₹${effectiveProfit15L.toFixed(2)} (₹15L)`;
+            document.getElementById('paybackPeriod').innerText = `${payback10L} (₹10L) / ${payback15L} (₹15L)`;
+        }
+        
+        calculateROI();
+    </script>
+</body>
+</html>
