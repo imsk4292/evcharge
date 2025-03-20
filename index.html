@@ -6,15 +6,16 @@
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
     h1, h2, h3 { color: #2C3E50; }
-    label, input, select { margin-bottom: 10px; display: block; }
+    label, input { margin-bottom: 10px; display: block; }
     table { border-collapse: collapse; margin-top: 10px; width: 100%; }
     table, th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
     .input-group { margin-bottom: 15px; }
   </style>
 </head>
 <body>
+
   <h1>EV Charging ROI Calculator</h1>
-  
+
   <div class="input-group">
     <label>Charging Price (₹ per kWh):
       <input type="number" id="chargingPrice" value="19" oninput="calculateROI()">
@@ -35,166 +36,127 @@
       <input type="number" id="twBattery" value="2" oninput="calculateROI()">
     </label>
   </div>
+
   <div class="input-group">
-    <label>Weekday Two-Wheelers per Day:
-      <input type="number" id="weekdayTW" value="5" oninput="calculateROI()">
+    <label>Monthly Rent (₹):
+      <input type="number" id="monthlyRent" value="10000" oninput="calculateROI()">
     </label>
   </div>
   <div class="input-group">
-    <label>Weekday Cars per Day:
-      <input type="number" id="weekdayCars" value="2" oninput="calculateROI()">
+    <label>Monthly Insurance Charges (₹):
+      <input type="number" id="insuranceCharges" value="1000" oninput="calculateROI()">
     </label>
   </div>
   <div class="input-group">
-    <label>Weekend Two-Wheelers per Day:
-      <input type="number" id="weekendTW" value="10" oninput="calculateROI()">
+    <label>Other Monthly Charges (₹):
+      <input type="number" id="otherCharges" value="1000" oninput="calculateROI()">
     </label>
   </div>
+
   <div class="input-group">
-    <label>Weekend Cars per Day:
-      <input type="number" id="weekendCars" value="5" oninput="calculateROI()">
-    </label>
-  </div>
-  <div class="input-group">
-    <label>Interest Rate (% per annum):
-      <input type="number" id="interestRate" value="7" oninput="calculateROI()">
-    </label>
-  </div>
-  <div class="input-group">
-    <label>Custom Investment Amount (in Lakh):
+    <label>Custom Investment Amount (in Lakh ₹):
       <input type="number" id="customInvestment" value="10" oninput="calculateROI()">
     </label>
   </div>
-  
+
   <h2>Basic Profit Metrics</h2>
   <table>
-    <tr>
-      <th>Metric</th>
-      <th>Value</th>
-    </tr>
-    <tr>
-      <td>Daily Profit (Weekdays)</td>
-      <td id="profitWeekday">-</td>
-    </tr>
-    <tr>
-      <td>Daily Profit (Weekends)</td>
-      <td id="profitWeekend">-</td>
-    </tr>
-    <tr>
-      <td>Total Weekly Profit</td>
-      <td id="profitWeekly">-</td>
-    </tr>
-    <tr>
-      <td>Annual Profit (Before Interest)</td>
-      <td id="profitAnnual">-</td>
-    </tr>
+    <tr><th>Metric</th><th>Value</th></tr>
+    <tr><td>Annual Profit (Before Expenses)</td><td id="profitAnnual">-</td></tr>
+    <tr><td>Annual Expenses</td><td id="annualExpenses">-</td></tr>
+    <tr><td>Net Annual Profit</td><td id="netProfit">-</td></tr>
   </table>
-  
+
   <h2>ROI Analysis for Multiple Investment Options</h2>
   <table>
     <tr>
       <th>Investment Option</th>
       <th>Annual Interest Cost</th>
-      <th>Effective Annual Profit</th>
+      <th>Net Profit After Interest</th>
       <th>Payback Period</th>
     </tr>
     <tr>
-      <td id="investment10">-</td>
+      <td>10 Lakh ₹</td>
       <td id="interestCost10">-</td>
       <td id="effectiveProfit10">-</td>
       <td id="paybackPeriod10">-</td>
     </tr>
     <tr>
-      <td id="investment20">-</td>
+      <td>20 Lakh ₹</td>
       <td id="interestCost20">-</td>
       <td id="effectiveProfit20">-</td>
       <td id="paybackPeriod20">-</td>
     </tr>
     <tr>
-      <td id="investment30">-</td>
+      <td>30 Lakh ₹</td>
       <td id="interestCost30">-</td>
       <td id="effectiveProfit30">-</td>
       <td id="paybackPeriod30">-</td>
     </tr>
     <tr>
-      <td id="investmentCustom">Custom</td>
+      <td>Custom Investment</td>
       <td id="interestCostCustom">-</td>
       <td id="effectiveProfitCustom">-</td>
       <td id="paybackPeriodCustom">-</td>
     </tr>
   </table>
-  
+
   <script>
-    // Helper function to format amounts in lakhs
     function formatLakhs(amount) {
       return '₹' + (amount / 100000).toFixed(2) + ' Lakh';
     }
-    
+
     function calculateROI() {
-      // Get input values
       let pricePerKWh = parseFloat(document.getElementById('chargingPrice').value);
       let costPerKWh = parseFloat(document.getElementById('electricityCost').value);
       let carBattery = parseFloat(document.getElementById('carBattery').value);
       let twBattery = parseFloat(document.getElementById('twBattery').value);
-      let weekdayTW = parseInt(document.getElementById('weekdayTW').value);
-      let weekdayCars = parseInt(document.getElementById('weekdayCars').value);
-      let weekendTW = parseInt(document.getElementById('weekendTW').value);
-      let weekendCars = parseInt(document.getElementById('weekendCars').value);
-      let interestRate = parseFloat(document.getElementById('interestRate').value) / 100;
-      let customInvestmentInput = parseFloat(document.getElementById('customInvestment').value);
-      
-      // Investment options in rupees (10L, 20L, 30L)
-      let investments = [1000000, 2000000, 3000000];  // 10L, 20L, 30L
-      
-      // Calculate margin per kWh
+      let rent = parseFloat(document.getElementById('monthlyRent').value);
+      let insurance = parseFloat(document.getElementById('insuranceCharges').value);
+      let otherCharges = parseFloat(document.getElementById('otherCharges').value);
+      let customInvestmentInput = parseFloat(document.getElementById('customInvestment').value) * 100000;
+
+      let interestRate = 7 / 100;
+      let investments = [1000000, 2000000, 3000000];
+
       let marginPerKWh = pricePerKWh - costPerKWh;
-      
-      // Calculate profit per full charge for each vehicle type
       let profitCar = carBattery * marginPerKWh;
       let profitTW = twBattery * marginPerKWh;
-      
-      // Calculate daily profits
-      let profitWeekday = (weekdayCars * profitCar) + (weekdayTW * profitTW);
-      let profitWeekend = (weekendCars * profitCar) + (weekendTW * profitTW);
-      
-      // Calculate weekly and annual profits
+
+      let profitWeekday = (2 * profitCar) + (5 * profitTW);
+      let profitWeekend = (5 * profitCar) + (10 * profitTW);
       let profitWeekly = (profitWeekday * 5) + (profitWeekend * 2);
       let profitAnnual = profitWeekly * 52;
-      
-      // Update basic profit metrics
-      document.getElementById('profitWeekday').innerText = '₹' + profitWeekday.toFixed(2);
-      document.getElementById('profitWeekend').innerText = '₹' + profitWeekend.toFixed(2);
-      document.getElementById('profitWeekly').innerText = '₹' + profitWeekly.toFixed(2);
-      document.getElementById('profitAnnual').innerText = '₹' + profitAnnual.toFixed(2);
-      
-      // Calculate ROI for preset investments (10L, 20L, 30L)
+
+      let annualExpenses = (rent + insurance + otherCharges) * 12;
+      let netProfit = profitAnnual - annualExpenses;
+
+      document.getElementById('profitAnnual').innerText = formatLakhs(profitAnnual);
+      document.getElementById('annualExpenses').innerText = formatLakhs(annualExpenses);
+      document.getElementById('netProfit').innerText = formatLakhs(netProfit);
+
       investments.forEach((inv, index) => {
         let interestCost = inv * interestRate;
-        let effectiveProfit = profitAnnual - interestCost;
+        let effectiveProfit = netProfit - interestCost;
         let payback = effectiveProfit > 0 ? (inv / effectiveProfit).toFixed(1) + ' years' : 'Not Profitable';
-        
-        // Determine element IDs based on the index
-        let invId = index === 0 ? '10' : index === 1 ? '20' : '30';
-        document.getElementById('investment' + invId).innerText = formatLakhs(inv);
-        document.getElementById('interestCost' + invId).innerText = formatLakhs(interestCost);
-        document.getElementById('effectiveProfit' + invId).innerText = formatLakhs(effectiveProfit);
-        document.getElementById('paybackPeriod' + invId).innerText = payback;
+
+        let idSuffix = (index + 1) * 10;
+        document.getElementById('interestCost' + idSuffix).innerText = formatLakhs(interestCost);
+        document.getElementById('effectiveProfit' + idSuffix).innerText = formatLakhs(effectiveProfit);
+        document.getElementById('paybackPeriod' + idSuffix).innerText = payback;
       });
-      
-      // Calculate ROI for custom investment input
-      let customInv = customInvestmentInput * 100000; // Convert Lakh to rupees
-      let customInterest = customInv * interestRate;
-      let customEffectiveProfit = profitAnnual - customInterest;
-      let customPayback = customEffectiveProfit > 0 ? (customInv / customEffectiveProfit).toFixed(1) + ' years' : 'Not Profitable';
-      
-      document.getElementById('investmentCustom').innerText = formatLakhs(customInv);
+
+      let customInterest = customInvestmentInput * interestRate;
+      let customEffectiveProfit = netProfit - customInterest;
+      let customPayback = customEffectiveProfit > 0 ? (customInvestmentInput / customEffectiveProfit).toFixed(1) + ' years' : 'Not Profitable';
+
       document.getElementById('interestCostCustom').innerText = formatLakhs(customInterest);
       document.getElementById('effectiveProfitCustom').innerText = formatLakhs(customEffectiveProfit);
       document.getElementById('paybackPeriodCustom').innerText = customPayback;
     }
-    
-    // Run calculations once the DOM is fully loaded
+
     document.addEventListener("DOMContentLoaded", calculateROI);
   </script>
+
 </body>
 </html>
